@@ -70,6 +70,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title
     
+    class Meta:
+        ordering = ['-dt_created']
+    
 class Comment(models.Model):
     content = models.TextField(max_length=500, blank=False)
 
@@ -83,11 +86,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content[:30]
+    
+    class Meta:
+        ordering = ['-dt_created']
 
 class Like(models.Model):
     dt_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey("User", on_delete=models.CASCADE)
-    content_type = models.ForeignKey("ContectType", on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     liked_object = GenericForeignKey('content_type','object_id')
 
