@@ -31,7 +31,7 @@ class User(AbstractUser):
 
     profile_pic = models.ImageField(default='default_profile_pic.jpg', upload_to='profile_pics')
 
-    following = models.ManyToManyField("self", symmetrical=False)
+    following = models.ManyToManyField("self", symmetrical=False, blank=True)
 
     def __str__(self):
         return self.email
