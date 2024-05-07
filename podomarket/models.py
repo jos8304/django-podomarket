@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey,GenericRelation
 from django.contrib.contenttypes.models import ContentType
 
 from django.db import models
@@ -31,7 +31,12 @@ class User(AbstractUser):
 
     profile_pic = models.ImageField(default='default_profile_pic.jpg', upload_to='profile_pics')
 
-    following = models.ManyToManyField("self", symmetrical=False, blank=True)
+    following = models.ManyToManyField(
+        "self", 
+        symmetrical=False, 
+        blank=True,
+        related_name='followers'
+    )
 
     def __str__(self):
         return self.email
@@ -59,13 +64,15 @@ class Post(models.Model):
 
     image3 = models.ImageField(upload_to='item_pics', blank=True)
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
 
     dt_created = models.DateTimeField(auto_now_add=True)
 
     dt_updated = models.DateTimeField(auto_now=True)
 
     is_sold = models.BooleanField(default=False)
+
+    likes = GenericRelation('Like')
 
     def __str__(self):
         return self.title
@@ -80,9 +87,11 @@ class Comment(models.Model):
 
     dt_updated = models.DateTimeField(auto_now=True)
 
-    author = models.ForeignKey("User", on_delete=models.CASCADE)
+    author = models.ForeignKey("User", on_delete=models.CASCADE, related_name='comments')
 
-    post = models.ForeignKey("Post", on_delete=models.CASCADE)
+    post = models.ForeignKey("Post", on_delete=models.CASCADE, related_name='comments')
+
+    likes = GenericRelation('Like')
 
     def __str__(self):
         return self.content[:30]
@@ -92,7 +101,7 @@ class Comment(models.Model):
 
 class Like(models.Model):
     dt_created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name='likes')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     liked_object = GenericForeignKey('content_type','object_id')
