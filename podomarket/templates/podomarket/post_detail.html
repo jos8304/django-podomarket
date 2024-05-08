@@ -1,7 +1,6 @@
 {% extends "podomarket_base/base_with_navbar.html" %}
 
 {% load static %}
-
 {% load humanize %}
 {% load widget_tweaks %}
 
@@ -51,6 +50,7 @@
       {{ post.item_details|linebreaksbr }}
     </p>
   </article>
+
   <div class="like-comment-header">
     <button class="like-button" type="submit">
       <img src="{% static 'podomarket/icons/ic-heart.svg' %}" alt="like icon">
@@ -104,6 +104,5 @@
       </div>
     </div>
   {% endfor %}
-  
 </div>
 {% endblock content %}

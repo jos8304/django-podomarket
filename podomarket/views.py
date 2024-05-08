@@ -7,7 +7,7 @@ from allauth.account.views import PasswordChangeView
 
 from braces.views import LoginRequiredMixin, UserPassesTestMixin
 
-from .forms import PostCreateForm, PostUpdateForm, ProfileForm, CommentForm
+from .forms import PostCreateForm, PostUpdateForm, ProfileForm,CommentForm
 from .functions import confirmation_required_redirect
 from .models import Post, User
 
@@ -27,6 +27,11 @@ class PostDetailView(DetailView):
     template_name = 'podomarket/post_detail.html'
     pk_url_kwarg = 'post_id'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentForm()
+        return context
+        
 
 class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
@@ -78,11 +83,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self, user):
         post = self.get_object()
         return post.author == user
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = CommentForm()
-        return context
 
 
 class ProfileView(DetailView):
