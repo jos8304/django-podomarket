@@ -61,7 +61,7 @@
       <span> {{ post.comments.count }}</span>
     </div>
   </div>
-  <form class="comment-create-form" action="#" method="post">
+  <form class="comment-create-form" action="{% url 'comment-create' post.id %}" method="post">
     {% csrf_token %}
       {% if user.is_authenticated %}
         {{ form.content|attr:"placeholder:댓글 내용을 입력해주세요."|add_class:"podo-input" }}      
