@@ -79,6 +79,22 @@ class CommentCreateView(LoginAndVerificationRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('post-detail', kwargs={'post_id': self.kwargs.get('post_id')})
 
+class CommentUpdateView(LoginAndOwnershipRequiredMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'podomarket/comment_update_form.html'
+    pk_url_kwarg = 'comment_id'
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'post_id': self.object.post.id})
+
+class CommentDeleteView(LoginAndOwnershipRequiredMixin, DeleteView):
+    model = Comment
+    template_name = 'podomarket/comment_confirm_delete.html'
+    pk_url_kwarg = 'comment_id'
+    
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'post_id': self.object.post.id})
 
 class ProfileView(DetailView):
     model = User
