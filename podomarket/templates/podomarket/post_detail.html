@@ -52,10 +52,24 @@
   </article>
 
   <div class="like-comment-header">
-    <button class="like-button" type="submit">
-      <img src="{% static 'podomarket/icons/ic-heart.svg' %}" alt="like icon">
-      <span> {{ post.likes.count }}</span>
-    </button>
+    {% if user.is_authenticated %}
+      <form action='{% url "process-like" post_ctype_id post.id  %}' method="post">
+        {% csrf_token %}
+        <button class="like-button" type="submit">   
+          {% if likes_post %}
+            <img width="21px" src="{% static 'coplate/icons/ic-heart-orange.svg' %}" alt="filled like icon">
+          {% else %}
+            <img width="21px" src="{% static 'coplate/icons/ic-heart.svg' %}" alt="like icon">
+          {% endif %}            
+          <span> 좋아요 {{post.likes.count }}</span>
+        </button>
+      </form>
+    {% else %}
+      <a class="like-button" href="{% url 'account_login' %}?next={% url 'post-detail' post.id %}">
+        <img src="{% static 'podomarket/icons/ic-heart.svg' %}" alt="like icon">
+        <span> 좋아요 {{ post.likes.count }}</span>
+      </a>
+    {% endif %}
     <div class="comment-info">
       <img src="{% static 'podomarket/icons/ic-comment.svg' %}" alt="comment icon"> 
       <span> {{ post.comments.count }}</span>
@@ -90,10 +104,24 @@
         {{ comment.content|linebreaksbr }}
       </div>
       <div class="comment-footer">
-        <button class="like-button" type="submit">
-          <img width="15px" src="{% static 'podomarket/icons/ic-heart.svg' %}" alt="like icon">
-          <span> {{ comment.likes.count }}</span>
-        </button>
+        {% if user.is_authenticated %}
+          <form action='{% url "process-like" comment_ctype_id comment.id  %}' method="post">
+            {% csrf_token %}
+            <button class="like-button" type="submit">
+              {% if comment in liked_comments  %}
+                <img width="21px" src="{% static 'coplate/icons/ic-heart-orange.svg' %}" alt="filled like icon">
+              {% else %}
+                <img width="21px" src="{% static 'coplate/icons/ic-heart.svg' %}" alt="like icon">
+              {% endif %}  
+              <span> 좋아요 {{ comment.likes.count }}</span>
+            </button>
+          </form>
+        {% else %}
+          <a class="like-button" href="{% url 'account_login' %}?next={% url 'post-detail' post.id %}">
+            <img src="{% static 'podomarket/icons/ic-heart.svg' %}" alt="like icon">
+            <span> {{ comment.likes.count }}</span>
+          </a>
+        {% endif %}
         {% if user == comment.author %}
           <div class="buttons">
             <a href={% url "comment-delete" comment.id %}>삭제</a>

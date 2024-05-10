@@ -20,4 +20,8 @@ urlpatterns = [
     path('posts/<int:post_id>/comments/create', views.CommentCreateView.as_view(), name='comment-create'),
     path('comments/<int:comment_id>/edit/', views.CommentUpdateView.as_view(), name='comment-update'),
     path('comments/<int:comment_id>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
+
+    #Like
+    path('like/<int:content_type_id>/<int:object_id>/', views.ProcessLikeView.as_view(), name='process-like'),
+
 ]
