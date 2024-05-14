@@ -20,6 +20,14 @@ class IndexView(ListView):
     def get_queryset(self):
         return Post.objects.filter(is_sold=False)
 
+class FollowingPostListView(LoginRequiredMixin, ListView):
+    model = Post
+    context_object_name = 'following_posts'
+    template_name = 'podomarket/following_post_list.html'
+    paginate_by = 8
+
+    def get_queryset(self):
+        return Post.objects.filter(author__followers=self.request.user)
 
 class PostDetailView(DetailView):
     model = Post
