@@ -23,5 +23,6 @@ urlpatterns = [
 
     #Like
     path('like/<int:content_type_id>/<int:object_id>/', views.ProcessLikeView.as_view(), name='process-like'),
-
+    # follow
+    path('users/<int:user_id>/follow/', views.ProcessFollowView.as_view(), name='process-follow'),
 ]
