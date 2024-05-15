@@ -6,11 +6,13 @@ urlpatterns = [
     # posts
     # posts
     path('', views.IndexView.as_view(), name='index'),
-    path('posts/following/', views.FollowingPostListView.as_view(), name='following-post-list'),   
+    path('posts/following/', views.FollowingPostListView.as_view(), name='following-post-list'),
+    path('posts/wishlist/', views.WishlistView.as_view(), name='wishlist'),   
     path('posts/<int:post_id>/', views.PostDetailView.as_view(), name='post-detail'),
     path('posts/new/', views.PostCreateView.as_view(), name='post-create'),
     path('posts/<int:post_id>/edit/', views.PostUpdateView.as_view(), name='post-update'),
     path('posts/<int:post_id>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
+    path('search/', views.SearchView.as_view(), name='search'),
 
     # profile
     path('users/<int:user_id>/', views.ProfileView.as_view(), name='profile'),

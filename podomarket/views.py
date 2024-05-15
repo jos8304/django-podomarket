@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from allauth.account.views import PasswordChangeView
+from django.db.models import Q
 
 from braces.views import LoginRequiredMixin
 from .mixins import LoginAndVerificationRequiredMixin, LoginAndOwnershipRequiredMixin
@@ -20,6 +21,27 @@ class IndexView(ListView):
     def get_queryset(self):
         return Post.objects.filter(is_sold=False)
 
+class SearchView(ListView):
+    model = Post
+    context_object_name = 'search_results'
+    template_name = 'podomarket/search_results.html'
+    paginate_by = 8
+
+    def get_queryset(self):
+        query = self.request.GET.get('query', '')
+        return Post.objects.filter(
+                    is_sold=False
+                ).filter(
+                    Q(title__contains=query) 
+                    | Q(item_details__contains=query)
+                )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('query', '')
+        return context
+
+
 class FollowingPostListView(LoginRequiredMixin, ListView):
     model = Post
     context_object_name = 'following_posts'
@@ -28,7 +50,16 @@ class FollowingPostListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Post.objects.filter(author__followers=self.request.user)
+    
+class WishlistView(LoginRequiredMixin, ListView):
+    model = Post
+    context_object_name = 'liked_posts'
+    template_name = 'podomarket/wishlist.html'
+    paginate_by = 8
 
+    def get_queryset(self):
+        return Post.objects.filter(likes__user=self.request.user)
+    
 class PostDetailView(DetailView):
     model = Post
     template_name = 'podomarket/post_detail.html'

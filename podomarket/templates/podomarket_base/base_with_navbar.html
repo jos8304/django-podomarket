@@ -25,7 +25,7 @@
     {% if user.is_authenticated %}
       <ul class="extra-menu">
         <li class="extra-menu-item">
-          <a href="#">
+          <a href="{% url "wishlist" %}">
             <img src="{% static 'podomarket/icons/ic-wishlist.svg' %}" alt="Liked Posts">
           </a>
         </li>
