@@ -518,6 +518,27 @@ input.search-input::placeholder {
   right: 30px;
 }
 
+.post-detail .carousel .carousel-button.next {
+  right: 30px;
+}
+
+.post-detail .carousel .thumbnails {
+  display: flex;
+  justify-content: end;
+}
+
+.post-detail .carousel img.thumb {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 11px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.post-detail .carousel img.thumb.inactive {
+  opacity: 0.3;
+}
 .post-detail .image {
   max-width: 1000px;
   max-height: 660px;

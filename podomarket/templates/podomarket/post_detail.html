@@ -29,6 +29,15 @@
         <img class="carousel-button prev" src="{% static 'podomarket/icons/ic-prev.svg' %}">
         <img class="carousel-button next" src="{% static 'podomarket/icons/ic-next.svg' %}">
       </div>
+      <div class="thumbnails">
+        <img class="thumb" src="{{ post.image1.url }}" data-index="0">
+        {% if post.image2 %}
+          <img class="thumb inactive" src="{{ post.image2.url }}" data-index="1">
+        {% endif %}
+        {% if post.image3 %}
+          <img class="thumb inactive" src="{{ post.image3.url }}" data-index="2">
+        {% endif %}
+      </div>
     </div>
     <div class="post-meta">
       <h2 class="title">{{ post.title }}</h2>
