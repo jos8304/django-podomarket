@@ -25,3 +25,9 @@
   {% endif %}
 </div>
 {% endblock content %}
+{% block js %}
+<script>
+  const isAuthenticated = '{{ user.is_authenticated }}' === 'True';
+</script>
+<script src="{% static 'podomarket/js/auth.js' %}"></script>
+{% endblock js %}

@@ -490,6 +490,34 @@ input.search-input::placeholder {
   margin-right: 5px;
 }
 
+.post-detail .carousel {
+  margin-bottom: 20px;
+}
+
+.post-detail .carousel img.image.hidden {
+  display: none;
+}
+.post-detail .carousel .images {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.post-detail .carousel .carousel-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  cursor: pointer;
+}
+
+.post-detail .carousel .carousel-button.prev {
+  left: 30px;
+}
+
+.post-detail .carousel .carousel-button.next {
+  right: 30px;
+}
+
 .post-detail .image {
   max-width: 1000px;
   max-height: 660px;

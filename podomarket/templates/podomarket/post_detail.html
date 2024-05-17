@@ -17,13 +17,19 @@
     </div>
   {% endif %}
   <article>
-    <img class="image" src="{{ post.image1.url }}">
-    {% if post.image2 %}
-      <img class="image" src="{{ post.image2.url }}">
-    {% endif %}
-    {% if post.image3 %}
-      <img class="image" src="{{ post.image3.url }}">
-    {% endif %}
+    <div class="carousel">
+      <div class="images">
+        <img class="image" src="{{ post.image1.url }}">
+          {% if post.image2 %}
+            <img class="image hidden" src="{{ post.image2.url }}">
+          {% endif %}
+          {% if post.image3 %}
+            <img class="image hidden" src="{{ post.image3.url }}">
+          {% endif %}
+        <img class="carousel-button prev" src="{% static 'podomarket/icons/ic-prev.svg' %}">
+        <img class="carousel-button next" src="{% static 'podomarket/icons/ic-next.svg' %}">
+      </div>
+    </div>
     <div class="post-meta">
       <h2 class="title">{{ post.title }}</h2>
       <div class="item-info">
@@ -134,3 +140,10 @@
   {% endfor %}
 </div>
 {% endblock content %}
+{% block js %}
+<script>
+  const isAuthenticated = '{{ user.is_authenticated }}' === 'True';
+</script>
+<script src="{% static 'podomarket/js/auth.js' %}"></script>
+<script src="{% static 'podomarket/js/carousel.js' %}"></script>
+{% endblock js %}
